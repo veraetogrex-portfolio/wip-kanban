@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>T17 WIP Kanban — a full column pushes back</title>
+<link rel="stylesheet" href="_shared/nocturne.css">
+<link rel="stylesheet" href="../style.css">
+<style>
+  /* the component from source/, dressed in Nocturne type */
+  #stage{background:radial-gradient(ellipse 65% 60% at 50% 45%,#0E1018 0%,var(--void) 72%);
+    --font:var(--f-text);--mono:var(--f-mono);--display:var(--f-display)}
+  #stage .wk{position:absolute;left:130px;top:80px;zoom:1;z-index:1}
+  .halo{position:absolute;left:50%;top:44%;width:1300px;height:700px;margin:-350px 0 0 -650px;border-radius:50%;pointer-events:none;z-index:0;
+    background:radial-gradient(closest-side,rgba(124,108,255,.08),rgba(0,0,0,0))}
+
+</style>
+</head>
+<body>
+<div id="stage" class="grid" data-title="T17 WIP Kanban" data-url="veraetogrex-portfolio.github.io/wip-kanban">
+  <div class="halo"></div>
+  <section class="wk" id="board" aria-label="Kanban board with a work-in-progress limit">
+    <header class="wk-top">
+      <h1 class="wk-title">WIP limit</h1>
+      <p class="wk-rules"><span>Kanban</span><b>In progress ≤ 3</b><b>Finish, then start</b></p>
+    </header>
+
+    <div class="wk-board">
+      <div class="wk-col" data-col="todo"><div class="wk-head"><h2>To do</h2><span class="wk-chip">3</span></div></div>
+      <div class="wk-col is-limit" data-col="doing" data-limit="3"><div class="wk-head"><h2>In progress</h2><span class="wk-chip">3 / 3</span></div><p class="wk-hint">Full · finish one first</p></div>
+      <div class="wk-col" data-col="done"><div class="wk-head"><h2>Done</h2><span class="wk-chip">2</span></div></div>
+    </div>
+
+    <div class="wk-verdict" role="status">
+      <p class="wk-caption">Three in progress. Try to start a fourth.</p>
+      <p class="wk-score">Finish <span class="g">1</span><span class="a">→</span>start <span class="p">1</span></p>
+    </div>
+  </section>
+  <div class="status-line"><span>Veraetogrex · T17</span><span>Kanban · WIP limit 3</span></div>
+</div>
+<script>window.AUTOPLAY = true;</script>
+<script src="_shared/stage.js"></script>
+<script src="../script.js"></script>
+<script>
+const wk = document.querySelector('#board').kanban;
+const into = (col, row) => { const r = Stage.rect(wk.col(col)); return [r.x + 186, r.y + 118 + row * 100]; };
+Stage.init({
+  reset: () => wk.reset(),
+  cursorStart: [330, 300],                 // resting on the first To do card
+  async demo(s) {
+    const t0 = performance.now();
+    await s.drag(into('doing', 1), 900, { from: wk.card('VX-214'), fromMs: 200, post: 260 });   // full: it pushes back
+    await s.until(t0, 1900);
+    await s.drag(into('done', 0), 800, { from: wk.card('VX-198'), fromMs: 380 });             // finish one
+    await s.until(t0, 3300);
+    await s.drag(into('doing', 2), 800, { from: wk.card('VX-214'), fromMs: 420 });            // now it fits
+    await s.until(t0, 5600);
+    wk.reset();                            // cards glide back = first frame
+    await s.until(t0, 6400);
+  },
+});
+</script>
+</body>
+</html>

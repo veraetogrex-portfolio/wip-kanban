@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>WIP Kanban — veraetogrex_portfolio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- WIP Kanban · zero dependencies · github.com/veraetogrex-portfolio -->
+  <section class="wk" id="board" aria-label="Kanban board with a work-in-progress limit">
+    <header class="wk-top">
+      <h1 class="wk-title">WIP limit</h1>
+      <p class="wk-rules"><span>Kanban</span><b>In progress ≤ 3</b><b>Finish, then start</b></p>
+    </header>
+
+    <div class="wk-board">
+      <div class="wk-col" data-col="todo"><div class="wk-head"><h2>To do</h2><span class="wk-chip">3</span></div></div>
+      <div class="wk-col is-limit" data-col="doing" data-limit="3"><div class="wk-head"><h2>In progress</h2><span class="wk-chip">3 / 3</span></div><p class="wk-hint">Full · finish one first</p></div>
+      <div class="wk-col" data-col="done"><div class="wk-head"><h2>Done</h2><span class="wk-chip">2</span></div></div>
+    </div>
+
+    <div class="wk-verdict" role="status">
+      <p class="wk-caption">Three in progress. Try to start a fourth.</p>
+      <p class="wk-score">Finish <span class="g">1</span><span class="a">→</span>start <span class="p">1</span></p>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
